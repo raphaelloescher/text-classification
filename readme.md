@@ -1,4 +1,4 @@
-# Text Classification for Harware Data
+# Text Classification for Harware Data with BERT
 ## Training
 The training.ipynb is the jupyter notebook used for training and preprossesing. Installation instruction:
 - Create a new Kernel for your jupyter lab with the requirements.txt installed. Afterwards run the file (best case with GPU).
