@@ -12,3 +12,4 @@ sentencepiece==0.1.99
 accelerate==0.26.1
 numpy==1.22.4
 seaborn==0.13.2
+matplotlib==3.8.2
