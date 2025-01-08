@@ -11,3 +11,16 @@ Step by step
 - jupyter notebook (Launch with the new kernel)
 ## Vue/Flask Demo
 For a running application just run the app.py in the flask-vue-demo folder.
+
+## Linux
+- Git
+sudo yum update
+sudo yum install git
+
+- VSCode
+sudo yum install code
+```
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+```
+(Pyhton and Vue extension)
