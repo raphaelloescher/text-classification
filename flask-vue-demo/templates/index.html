@@ -76,11 +76,10 @@
                             <li class="list-group-item">Accuracy: {{ '{{ metrics.accuracy }}' }}</li>
                             <li class="list-group-item">F1 Score: {{ '{{ metrics.f1 }}' }}</li>
                             <li class="list-group-item">Recall: {{ '{{ metrics.recall }}' }}</li>
-                            <li class="list-group-item">Precision: {{ '{{ metrics.precision }}' }}</li>
                         </ul>
                         <div class="mt-4">
                             <h6>Confusion Matrix</h6>
-                            <img :src="confusionMatrixUrl" alt="Confusion Matrix" class="img-fluid border mt-3">
+                            <img src="{{ url_for('static', filename='output.png') }}" alt="Confusion Matrix Image" class="img-fluid mt-4">
                         </div>
                     </div>
                 </div>

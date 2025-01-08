@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 import torch.nn.functional as F
@@ -6,13 +6,14 @@ import time  # For artificial delay
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import os
 
 app = Flask(__name__)
 
 # Load BERT model and tokenizer
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-model = BertForSequenceClassification.from_pretrained("../bert-incident-classifier")
-tokenizer = BertTokenizer.from_pretrained("../bert-incident-classifier")
+model = BertForSequenceClassification.from_pretrained("bert-incident-classifier")
+tokenizer = BertTokenizer.from_pretrained("bert-incident-classifier")
 model.to(device)
 model.eval()
 
@@ -65,34 +66,22 @@ def classify():
 @app.route('/api/metrics', methods=['GET'])
 def get_metrics():
     return jsonify({
-        'accuracy': 0.95,
-        'f1': 0.93,
-        'recall': 0.90,
-        'precision': 0.94,
-        'confusion_matrix': '[[45, 5], [3, 47]]'
+        'accuracy': 0.79,
+        'f1': 0.80,
+        'recall': 0.81,
     })
 
 # Confusion matrix plot generation
 @app.route('/api/confusion-matrix')
 def confusion_matrix():
-    # Example confusion matrix data
-    matrix = np.array([[45, 5], [3, 47]])
-    labels = ['Class 0', 'Class 1']
+    image_path = os.path.join('static', 'output.png')
+    
+    if not os.path.exists('flask-vue-demo/' + image_path):
+        return "Image not found", 404
 
-    # Plotting with seaborn
-    plt.figure(figsize=(6, 5))
-    sns.heatmap(matrix, annot=True, fmt='d', cmap='Blues', xticklabels=labels, yticklabels=labels)
-    plt.xlabel('Predicted')
-    plt.ylabel('Actual')
-    plt.title('Confusion Matrix')
+    # Serve the image
+    return send_file(image_path, mimetype='image/png')
 
-    # Convert to BytesIO and send as image response
-    img = io.BytesIO()
-    plt.savefig(img, format='png')
-    img.seek(0)
-    plt.close()
-
-    return Response(img.getvalue(), mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True)

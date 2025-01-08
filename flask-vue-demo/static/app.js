@@ -4,14 +4,7 @@ const app = Vue.createApp({
             incident: '',
             recommendations: [],
             loading: false,
-            confusionMatrixUrl: '/api/confusion-matrix',
-            metrics: {
-                'accuracy': 0.95,
-                'f1': 0.93,
-                'recall': 0.90,
-                'precision': 0.94,
-                'confusion_matrix': '[[45, 5], [3, 47]]'
-            }
+            metrics: {}
         };
     },
     methods: {
@@ -53,7 +46,7 @@ const app = Vue.createApp({
         },
         // Open Modal for Metrics
         showMetrics() {
-            this.confusionMatrixUrl = `/api/confusion-matrix?timestamp=${new Date().getTime()}`;
+            this.fetchMetrics();
             const modal = new bootstrap.Modal(document.getElementById('metricsModal'));
             modal.show();
         },

@@ -25,7 +25,9 @@ jupyter notebook
 (Launch with the new kernel)
 ## Vue/Flask Demo
 For a running application just run the app.py in the flask-vue-demo folder.
-
+```
+python flask-vue-demo/app.py
+```
 ## Linux
 - Git
 ```
