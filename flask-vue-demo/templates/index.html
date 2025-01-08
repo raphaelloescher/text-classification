@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Classifier</title>
+    <link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='vue.js') }}"></script>
+</head>
+<body class="d-flex vh-100 align-items-center justify-content-center bg-light">
+
+    <div id="app" class="card p-5 shadow-lg" style="width: 40rem;">
+        <h1 class="text-center mb-4">Component Classifier</h1>
+
+        <!-- Incident Input Form -->
+        <div class="mb-3">
+            <textarea v-model="incident" 
+                      placeholder="Describe the component here..." 
+                      class="form-control" 
+                      rows="4"></textarea>
+        </div>
+        <!-- Example Descriptions Section -->
+        <div class="mb-3">
+            <p class="text-muted">Or try these examples:</p>
+            <div class="d-flex gap-2">
+                <button @click="fillExample('Unauthorized access detected on server.')" 
+                        class="btn btn-outline-secondary btn-sm">
+                    Unauthorized Access
+                </button>
+                <button @click="fillExample('System failure in production environment.')" 
+                        class="btn btn-outline-secondary btn-sm">
+                    System Failure
+                </button>
+                <button @click="fillExample('User reported phishing email.')" 
+                        class="btn btn-outline-secondary btn-sm">
+                    Phishing Report
+                </button>
+            </div>
+        </div>
+        <button @click="submitIncident" 
+                :disabled="loading" 
+                class="btn btn-primary w-100">
+            Submit
+        </button>
+
+        <!-- Loading Spinner -->
+        <div v-if="loading" class="text-center mt-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Recommendations List -->
+        <div v-if="recommendations.length" class="mt-5">
+            <h2 class="h4">Top Recommendations:</h2>
+            <ul class="list-group mt-3">
+                <li v-for="(rec, index) in recommendations" :key="index" class="list-group-item">
+                    {{ '{{ rec }}' }}
+                </li>
+            </ul>
+        </div>
+        <!-- Floating Metrics Button -->
+        <button @click="showMetrics" class="btn btn-secondary position-fixed bottom-0 end-0 m-4">
+            Model Metrics
+        </button>
+        <!-- Metrics Modal -->
+        <div class="modal fade" id="metricsModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Model Performance Metrics</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">Accuracy: {{ '{{ metrics.accuracy }}' }}</li>
+                            <li class="list-group-item">F1 Score: {{ '{{ metrics.f1 }}' }}</li>
+                            <li class="list-group-item">Recall: {{ '{{ metrics.recall }}' }}</li>
+                            <li class="list-group-item">Precision: {{ '{{ metrics.precision }}' }}</li>
+                        </ul>
+                        <div class="mt-4">
+                            <h6>Confusion Matrix</h6>
+                            <img :src="confusionMatrixUrl" alt="Confusion Matrix" class="img-fluid border mt-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
+<style>
+    [v-cloak] { display: none; }
+</style>
